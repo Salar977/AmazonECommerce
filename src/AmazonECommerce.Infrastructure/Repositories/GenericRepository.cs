@@ -15,8 +15,9 @@ public class GenericRepository<TEntity>(AppDbContext dbContext) : IGenericReposi
 
     public async Task<int> DeleteAsync(Guid id)
     {
-        var entity = await dbContext.Set<TEntity>().FindAsync(id) ??
-            throw new ItemNotFoundException($"{typeof(TEntity).Name} does not exist");
+        var entity = await dbContext.Set<TEntity>().FindAsync(id);
+        
+        if(entity is null) return 0;
 
         dbContext.Set<TEntity>().Remove(entity);
         return await dbContext.SaveChangesAsync();

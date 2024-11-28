@@ -1,6 +1,6 @@
 ﻿namespace AmazonECommerce.Application.DTOs.Products;
 
-public class UpdateProduct : BaseProduct
+public class ProductUpdate : BaseProduct
 {
     public Guid Id { get; set; }
 }

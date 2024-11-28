@@ -1,5 +1,5 @@
 ﻿namespace AmazonECommerce.Application.DTOs.Products;
 
-public class CreateProduct : BaseProduct
+public class ProductRequest : BaseProduct
 {
 }

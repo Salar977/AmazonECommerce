@@ -9,12 +9,12 @@ public class MappingConfig : Profile
 {
     public MappingConfig()
     {
-        CreateMap<CreateCategory, Category>();
-        CreateMap<UpdateCategory, Category>();
+        CreateMap<CategoryRequest, Category>();
+        CreateMap<CategoryUpdate, Category>();
         CreateMap<Category, CategoryResponse>();
 
-        CreateMap<CreateProduct, Product>();
-        CreateMap<UpdateProduct, Product>();
+        CreateMap<ProductRequest, Product>();
+        CreateMap<ProductUpdate, Product>();
         CreateMap<Product, ProductResponse>();
 
     }

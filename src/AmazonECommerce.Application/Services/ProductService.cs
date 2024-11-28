@@ -2,34 +2,58 @@
 using AmazonECommerce.Application.DTOs.Products;
 using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Domain.Entities;
+using AutoMapper;
 
 namespace AmazonECommerce.Application.Services;
 
-public class ProductService(IGenericRepository<Product> repository) : IProductService
+public class ProductService(IGenericRepository<Product> repository, IMapper mapper) : IProductService
 {
-    public async Task<ServiceResponse> AddAsync(CreateProduct createProduct)
+    public async Task<ServiceResponse> AddAsync(ProductRequest createProduct)
     {
+        var mappedData = mapper.Map<Product>(createProduct);
+        int result = await repository.AddAsync(mappedData);
 
-        int result = await repository.AddAsync();
+        return result <= 0 ?
+            new ServiceResponse(Message: "Product Failed to be added") :
+            new ServiceResponse(true, Message: "Product Added.");
     }
 
-    public Task<ServiceResponse> DeleteAsync(Guid id)
+    public async Task<ServiceResponse> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+         int result = await repository.DeleteAsync(id);
+        return result <= 0 ?
+            new ServiceResponse(Message: "Product not found or failed to be deleted") :
+            new ServiceResponse(true, Message: "Product deleted.");
     }
 
-    public Task<IEnumerable<ProductResponse>> GetAllAsync()
+    public async Task<IEnumerable<ProductResponse>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var product = await repository.GetAllAsync();
+        if (!product.Any()) return [];
+
+        return mapper.Map<IEnumerable<ProductResponse>>(product);
+        
     }
 
-    public Task<ProductResponse> GetByIdAsync(Guid id)
+    public async Task<ProductResponse> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var product = await repository.GetByIdAsync(id);
+        if (product is null) return new ProductResponse();
+
+        return mapper.Map<ProductResponse>(product);
     }
 
-    public Task<ServiceResponse> UpdateAsync(Guid id, UpdateProduct updateProduct)
+    public async Task<ServiceResponse> UpdateAsync(Guid id, ProductUpdate updateProduct)
     {
-        throw new NotImplementedException();
+        var product = await repository.GetByIdAsync(id);
+        if (product is null)
+            return new ServiceResponse(Message: "Product failed to update");
+
+        var mappedData = mapper.Map<Product>(updateProduct);
+        int result = await repository.UpdateAsync(id, mappedData);
+
+        return result <= 0 ?
+            new ServiceResponse(Message: "Product Failed to be updated") :
+            new ServiceResponse(true, Message: "Product Updated.");
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace AmazonECommerce.Application.DTOs.Categories;
 
-public class UpdateCategory : BaseCategory
+public class CategoryUpdate : BaseCategory
 {
     public Guid Id { get; set; }
 }

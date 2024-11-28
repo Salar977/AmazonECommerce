@@ -1,6 +1,6 @@
 ﻿namespace AmazonECommerce.Application.DTOs.Categories;
 
-public class CreateCategory : BaseCategory
+public class CategoryRequest : BaseCategory
 {
 
 }
