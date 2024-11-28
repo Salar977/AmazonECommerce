@@ -2,8 +2,9 @@
 
 namespace AmazonECommerce.Application.DTOs.Categories;
 
-public class CategoryResponse : BaseCategory
+public class CategoryResponse
 {
     public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
     public IEnumerable<ProductResponse>? Products { get; set; }
 }

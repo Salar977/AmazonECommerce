@@ -30,16 +30,16 @@ public class GenericRepository<TEntity>(AppDbContext dbContext) : IGenericReposi
 
     public async Task<TEntity> GetByIdAsync(Guid id)
     {
-        return await dbContext.Set<TEntity>().FindAsync(id) ??
-            throw new ItemNotFoundException($"{typeof(TEntity).Name} does not exist");
+        return await dbContext.Set<TEntity>().FindAsync(id) ?? null!;
     }
 
     public async Task<int> UpdateAsync(Guid id, TEntity entity)
     {
-        var item = await dbContext.Set<TEntity>().FindAsync(id) ??
-            throw new ItemNotFoundException($"{typeof(TEntity).Name} does not exist");
+        var item = await dbContext.Set<TEntity>().FindAsync(id);
+        if (item is null) return 0;
+        // Copy the updated values from the incoming entity to the fetched entity
+        dbContext.Entry(item).CurrentValues.SetValues(entity);
 
-        dbContext.Set<TEntity>().Update(item);
         return await dbContext.SaveChangesAsync();
     }
 }

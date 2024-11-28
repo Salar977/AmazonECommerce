@@ -2,6 +2,7 @@
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
 using AmazonECommerce.Infrastructure.Repositories;
+using EntityFramework.Exceptions.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ public static class DependencyInjection
             {
                 sqlOptions.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName);
                 sqlOptions.EnableRetryOnFailure();
-            }),
+            }).UseExceptionProcessor(),
             ServiceLifetime.Scoped);
 
         services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();

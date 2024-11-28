@@ -1,4 +1,6 @@
-﻿namespace AmazonECommerce.Application.Interfaces;
+﻿using System.Linq.Expressions;
+
+namespace AmazonECommerce.Application.Interfaces;
 
 public interface IGenericRepository<TEntity> where TEntity : class
 {

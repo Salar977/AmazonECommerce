@@ -1,11 +1,11 @@
 ﻿using AmazonECommerce.Application.DTOs.Categories;
-using AmazonECommerce.Application.Services;
+using AmazonECommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmazonECommerce.Api.Controllers;
 [Route("api/categories")]
 [ApiController]
-public class CategoryController(CategoryService categoryService) : ControllerBase
+public class CategoryController(ICategoryService categoryService) : ControllerBase
 {
     [HttpGet(Name = "GetCategories")]
     public async Task<IActionResult> GetAllCategories()
@@ -15,7 +15,7 @@ public class CategoryController(CategoryService categoryService) : ControllerBas
     }
 
     [HttpGet("{id:guid}", Name = "GetCategory")]
-    public async Task<IActionResult> GetCategory([FromQuery] Guid id)
+    public async Task<IActionResult> GetCategory([FromRoute] Guid id)
     {
         var category = await categoryService.GetByIdAsync(id);
         if (category is null)
@@ -28,6 +28,8 @@ public class CategoryController(CategoryService categoryService) : ControllerBas
     [HttpPost(Name = "AddCategory")]
     public async Task<IActionResult> AddCategory([FromBody] CategoryRequest categoryRequest)
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
         var result = await categoryService.AddAsync(categoryRequest);
         if (!result.Success)
         {
@@ -37,9 +39,11 @@ public class CategoryController(CategoryService categoryService) : ControllerBas
     }
 
     [HttpPut("{id:guid}", Name = "UpdateCategory")]
-    public async Task<IActionResult> UpdateCategory([FromQuery] Guid id,
+    public async Task<IActionResult> UpdateCategory([FromRoute] Guid id,
                                                    [FromBody] CategoryUpdate categoryUpdate)
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
         var result = await categoryService.UpdateAsync(id, categoryUpdate);
         if (!result.Success)
         {
@@ -49,7 +53,7 @@ public class CategoryController(CategoryService categoryService) : ControllerBas
     }
 
     [HttpDelete("{id:guid}", Name = "DeleteCategory")]
-    public async Task<IActionResult> UpdateCategory([FromQuery] Guid id)
+    public async Task<IActionResult> UpdateCategory([FromRoute] Guid id)
     {
         var result = await categoryService.DeleteAsync(id);
         if (result is null) return NotFound(result);
