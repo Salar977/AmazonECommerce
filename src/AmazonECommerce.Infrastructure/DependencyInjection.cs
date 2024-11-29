@@ -1,8 +1,10 @@
 ﻿using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
+using AmazonECommerce.Infrastructure.Middelware;
 using AmazonECommerce.Infrastructure.Repositories;
 using EntityFramework.Exceptions.SqlServer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,5 +27,10 @@ public static class DependencyInjection
         services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
         services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
 
+    }
+
+    public static void UseInfrastructureService(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<ExceptionHandlingMiddelware>();
     }
 }
