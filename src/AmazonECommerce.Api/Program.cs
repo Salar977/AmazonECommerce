@@ -26,7 +26,7 @@ builder.Services.AddCors(builder =>
     {
         opinions.AllowAnyHeader()
         .AllowAnyMethod()
-        .AllowAnyOrigin()
+        .WithOrigins("https://localhost:7188")
         .AllowCredentials();
     });
 });
