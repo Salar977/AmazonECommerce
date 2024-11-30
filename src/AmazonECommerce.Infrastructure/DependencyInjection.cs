@@ -3,6 +3,7 @@ using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
 using AmazonECommerce.Infrastructure.Middelware;
 using AmazonECommerce.Infrastructure.Repositories;
+using AmazonECommerce.Infrastructure.Services;
 using EntityFramework.Exceptions.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ public static class DependencyInjection
 
         services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
         services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+        services.AddScoped(typeof(IAppLogger<>), typeof(SeriLogLoggerAdapter<>));
 
     }
 
