@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AmazonECommerce.Application.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 namespace AmazonECommerce.Infrastructure.Middelware;
@@ -15,8 +17,10 @@ public class ExceptionHandlingMiddelware(RequestDelegate _next)
         }
         catch(DbUpdateException ex)
         {
+            var logger = context.RequestServices.GetRequiredService<IAppLogger<ExceptionHandlingMiddelware>>();
             if (ex.InnerException is SqlException innerException)
             {
+                logger.LogError(innerException, "Sql Exception");
                 context.Response.ContentType = "application/json";
                 switch (innerException.Number)
                 {
@@ -46,6 +50,7 @@ public class ExceptionHandlingMiddelware(RequestDelegate _next)
             else
             {
                 // Handle general DbUpdateException without a SQL-specific cause
+                logger.LogError(ex, "Related EFCore Exception");
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonSerializer.Serialize("An error occurred while saving the entity changes"));
@@ -53,6 +58,8 @@ public class ExceptionHandlingMiddelware(RequestDelegate _next)
         }
         catch (Exception ex)
         {
+            var logger = context.RequestServices.GetRequiredService<IAppLogger<ExceptionHandlingMiddelware>>();
+            logger.LogError(ex, "Unkown Exception");
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize("An unexpected error occurred " + ex.ToString()));
