@@ -1,5 +1,7 @@
 ﻿using AmazonECommerce.Application.DTOs.Categories;
+using AmazonECommerce.Application.DTOs.Identity;
 using AmazonECommerce.Application.DTOs.Products;
+using AmazonECommerce.Application.Identity;
 using AmazonECommerce.Domain.Entities;
 using AutoMapper;
 
@@ -16,6 +18,9 @@ public class MappingConfig : Profile
         CreateMap<ProductRequest, Product>();
         CreateMap<ProductUpdate, Product>();
         CreateMap<Product, ProductResponse>();
+
+        CreateMap<UserRequest, AppUser>();
+        CreateMap<UserLogin, AppUser>();
 
     }
 }
