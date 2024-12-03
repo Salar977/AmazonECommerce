@@ -1,11 +1,13 @@
 ﻿using AmazonECommerce.Application.Identity;
 using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Authentication;
+using AmazonECommerce.Application.Interfaces.Cart;
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
 using AmazonECommerce.Infrastructure.Middelware;
 using AmazonECommerce.Infrastructure.Repositories;
 using AmazonECommerce.Infrastructure.Repositories.Authentication;
+using AmazonECommerce.Infrastructure.Repositories.Cart;
 using AmazonECommerce.Infrastructure.Services;
 using EntityFramework.Exceptions.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +40,8 @@ public static class DependencyInjection
         services.AddScoped<IUserManagement, UserManagement>();
         services.AddScoped<IRoleManagement, RoleManagement>();
         services.AddScoped<ITokenManagement, TokenManagement>();
+        services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
+        services.AddScoped<IPaymentService, PaymentService>();
 
         services.AddDefaultIdentity<AppUser>(options =>
         {
@@ -73,6 +77,8 @@ public static class DependencyInjection
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:SigningKey"]!))
             };
         });
+
+        Stripe.StripeConfiguration.ApiKey = config["Stripe:SecretKey"];
 
     }
 

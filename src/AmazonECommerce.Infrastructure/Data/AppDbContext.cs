@@ -1,5 +1,6 @@
 ﻿using AmazonECommerce.Application.Identity;
 using AmazonECommerce.Domain.Entities;
+using AmazonECommerce.Domain.Entities.Cart;
 using AmazonECommerce.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -11,7 +12,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 {
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
     public DbSet<RefreshToken> RefreshToken { get; set; } = null!;
+    public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -42,6 +45,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
                 Id = Guid.NewGuid().ToString(),
                 Name = "User",
                 NormalizedName = "USER"
+            });
+
+        builder.Entity<PaymentMethod>()
+            .HasData(
+            new PaymentMethod
+            {
+                Id = Guid.NewGuid(),
+                Name = "Credit Card"
             });
     }
 }
