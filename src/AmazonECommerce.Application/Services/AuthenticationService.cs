@@ -7,7 +7,7 @@ using AmazonECommerce.Application.Interfaces.Validation;
 using AutoMapper;
 using FluentValidation;
 
-namespace AmazonECommerce.Application.Services.Authentication;
+namespace AmazonECommerce.Application.Services;
 
 public class AuthenticationService(ITokenManagement tokenManagement,
                                    IUserManagement userManagement,
@@ -36,11 +36,11 @@ public class AuthenticationService(ITokenManagement tokenManagement,
 
         bool assignedResult = await roleManagement.AddUserToRoleAsync(user!, role);
 
-        if(!assignedResult)
+        if (!assignedResult)
         {
             // remove user
             int removeUserResult = await userManagement.RemoveUserByEmailAsync(user!.Email!);
-            if(removeUserResult <= 0)
+            if (removeUserResult <= 0)
             {
                 logger.LogError(
                     new Exception($"User with email {user.Email} failed to be removed as a result of role assigning issue"),
@@ -65,7 +65,7 @@ public class AuthenticationService(ITokenManagement tokenManagement,
         mappedModel.PasswordHash = userLogin.Password;
 
         bool loginResult = await userManagement.LoginUserAsync(mappedModel);
-        if(!loginResult)
+        if (!loginResult)
             return new LoginResponse(Message: "Email not found or invalid credentials");
 
         var user = await userManagement.GetUserByEmailAsync(userLogin.Email);
@@ -76,7 +76,7 @@ public class AuthenticationService(ITokenManagement tokenManagement,
 
         int saveTokenResult = 0;
         bool userTokenCheck = await tokenManagement.ValidateRefreshTokenAsync(refreshToken);
-        if(userTokenCheck)
+        if (userTokenCheck)
             await tokenManagement.UpdateRefreshTokenAsync(user!.Id, refreshToken);
         else
             saveTokenResult = await tokenManagement.AddRefreshTokenAsync(user!.Id, refreshToken);

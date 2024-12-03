@@ -1,9 +1,10 @@
 ﻿using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Authentication;
+using AmazonECommerce.Application.Interfaces.Cart;
 using AmazonECommerce.Application.Interfaces.Validation;
 using AmazonECommerce.Application.Mapping;
 using AmazonECommerce.Application.Services;
-using AmazonECommerce.Application.Services.Authentication;
+using AmazonECommerce.Application.Services.Cart;
 using AmazonECommerce.Application.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -22,5 +23,7 @@ public static class DependencyInjection
         services.AddFluentValidationAutoValidation();
         services.AddScoped<IValidationService, ValidationService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IPaymentMethodService, PaymentMethodService>();
+        //services.AddScoped<ICartService, CartService>();
     }
 }
