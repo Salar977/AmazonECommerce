@@ -1,5 +1,5 @@
 ﻿using AmazonECommerce.Application.DTOs.Categories;
-using AmazonECommerce.Application.Interfaces;
+using AmazonECommerce.Application.Interfaces.Category;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmazonECommerce.Api.Controllers;
@@ -62,5 +62,12 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
             return BadRequest(result);
         }
         return Ok(result);
+    }
+    [HttpGet("products/{categoryId:guid}")]
+    public async Task<IActionResult> GetProductsByCategoryId([FromRoute] Guid categoryId)
+    {
+        var products = await categoryService.GetProductByCategoryAsync(categoryId);
+        if (products is null || !products.Any()) return NotFound(products);
+        return Ok(products);
     }
 }

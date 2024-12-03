@@ -2,12 +2,14 @@
 using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Authentication;
 using AmazonECommerce.Application.Interfaces.Cart;
+using AmazonECommerce.Application.Interfaces.Category;
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
 using AmazonECommerce.Infrastructure.Middelware;
 using AmazonECommerce.Infrastructure.Repositories;
 using AmazonECommerce.Infrastructure.Repositories.Authentication;
 using AmazonECommerce.Infrastructure.Repositories.Cart;
+using AmazonECommerce.Infrastructure.Repositories.Category;
 using AmazonECommerce.Infrastructure.Services;
 using EntityFramework.Exceptions.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -42,6 +44,8 @@ public static class DependencyInjection
         services.AddScoped<ITokenManagement, TokenManagement>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
         services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         services.AddDefaultIdentity<AppUser>(options =>
         {

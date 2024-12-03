@@ -1,6 +1,7 @@
 ﻿using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Authentication;
 using AmazonECommerce.Application.Interfaces.Cart;
+using AmazonECommerce.Application.Interfaces.Category;
 using AmazonECommerce.Application.Interfaces.Validation;
 using AmazonECommerce.Application.Mapping;
 using AmazonECommerce.Application.Services;
@@ -24,6 +25,6 @@ public static class DependencyInjection
         services.AddScoped<IValidationService, ValidationService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IPaymentMethodService, PaymentMethodService>();
-        //services.AddScoped<ICartService, CartService>();
+        services.AddScoped<ICartService, CartService>();
     }
 }

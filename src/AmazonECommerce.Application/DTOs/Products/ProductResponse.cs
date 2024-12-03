@@ -1,11 +1,14 @@
 ﻿using AmazonECommerce.Application.DTOs.Categories;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AmazonECommerce.Application.DTOs.Products;
 
 public class ProductResponse
 {
     public Guid Id { get; set; }
+
+    [JsonIgnore]
     public CategoryResponse? Category { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
