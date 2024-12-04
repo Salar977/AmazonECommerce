@@ -2,6 +2,8 @@
 using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Authentication;
 using AmazonECommerce.Application.Interfaces.Cart;
+using AmazonECommerce.Application.Interfaces.Categories;
+using AmazonECommerce.Application.Interfaces.Products;
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
 using AmazonECommerce.Infrastructure.Middelware;
@@ -34,14 +36,15 @@ public static class DependencyInjection
             }).UseExceptionProcessor(),
             ServiceLifetime.Scoped);
 
-        services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
-        services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IAppLogger<>), typeof(SeriLogLoggerAdapter<>));
         services.AddScoped<IUserManagement, UserManagement>();
         services.AddScoped<IRoleManagement, RoleManagement>();
         services.AddScoped<ITokenManagement, TokenManagement>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
         services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         services.AddDefaultIdentity<AppUser>(options =>
         {

@@ -1,12 +1,15 @@
 ﻿using AmazonECommerce.Application.DTOs;
 using AmazonECommerce.Application.DTOs.Products;
 using AmazonECommerce.Application.Interfaces;
+using AmazonECommerce.Application.Interfaces.Categories;
+using AmazonECommerce.Application.Interfaces.Products;
 using AmazonECommerce.Domain.Entities;
 using AutoMapper;
 
 namespace AmazonECommerce.Application.Services;
 
-public class ProductService(IGenericRepository<Product> productRepository,
+public class ProductService(IProductRepository productRepository,
+                            ICategoryRepository categoryRepository,
                             IMapper mapper) : IProductService
 {
     public async Task<ServiceResponse> AddAsync(ProductRequest createProduct)
@@ -30,19 +33,32 @@ public class ProductService(IGenericRepository<Product> productRepository,
 
     public async Task<IEnumerable<ProductResponse>> GetAllAsync()
     {
-        var product = await productRepository.GetAllAsync();
-        if (!product.Any()) return [];
+        var products = await productRepository.GetAllAsync();
+        if (!products.Any()) return [];
 
-        return mapper.Map<IEnumerable<ProductResponse>>(product);
+        var mappedData = mapper.Map<IEnumerable<ProductResponse>>(products);
+        foreach (var product in mappedData)
+        {
+            var category = await categoryRepository.GetByIdAsync(product.CategoryId);
+            product.CategoryName = category.Name;
+        }
+
+        return mappedData;
         
     }
 
     public async Task<ProductResponse> GetByIdAsync(Guid id)
     {
-        var product = await productRepository.GetByIdAsync(id);
-        if (product is null) return new ProductResponse();
+        var entity = await productRepository.GetByIdAsync(id);
+        if (entity is null) return new ProductResponse();
 
-        return mapper.Map<ProductResponse>(product);
+        var category = await categoryRepository.GetByIdAsync(entity.CategoryId);
+
+        var product = mapper.Map<ProductResponse>(entity);
+
+        product.CategoryName = category.Name;
+
+        return product;
     }
 
     public async Task<ServiceResponse> UpdateAsync(Guid id, ProductUpdate updateProduct)
