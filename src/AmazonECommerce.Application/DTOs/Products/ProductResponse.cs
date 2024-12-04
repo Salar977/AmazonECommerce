@@ -7,11 +7,8 @@ namespace AmazonECommerce.Application.DTOs.Products;
 public class ProductResponse
 {
     public Guid Id { get; set; }
-
-    [JsonIgnore]
-    public CategoryResponse? Category { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
 
     [DataType(DataType.Currency)]
@@ -19,5 +16,6 @@ public class ProductResponse
     public int Quantity { get; set; }
     public DateTime Created {  get; set; }
     public DateTime? Updated { get; set; }
+    public string CategoryName { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
 }

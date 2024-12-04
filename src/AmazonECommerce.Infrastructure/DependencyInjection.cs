@@ -36,8 +36,6 @@ public static class DependencyInjection
             }).UseExceptionProcessor(),
             ServiceLifetime.Scoped);
 
-        //services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
-        //services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IAppLogger<>), typeof(SeriLogLoggerAdapter<>));
         services.AddScoped<IUserManagement, UserManagement>();

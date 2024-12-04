@@ -7,24 +7,39 @@ namespace AmazonECommerce.Infrastructure.Repositories;
 
 public class CategoryRepository(AppDbContext dbContext) : ICategoryRepository
 {
-    public Task<int> AddAsync(Category category)
+    public async Task<int> AddAsync(Category category)
     {
-        throw new NotImplementedException();
+        await dbContext.Categories.AddAsync(category);
+        return await dbContext.SaveChangesAsync();
     }
 
-    public Task<int> DeleteAsync(Guid id)
+    public async Task<int> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+        if (category is null) return 0;
+        dbContext.Categories.Remove(category);
+        return await dbContext.SaveChangesAsync();
     }
 
-    public Task<IEnumerable<Category>> GetAllAsync()
+    public async Task<IEnumerable<Category>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await dbContext.Categories.Include(x => x.Products).AsNoTracking().ToListAsync();
     }
 
-    public Task<Category> GetByIdAsync(Guid id)
+    public async Task<Category> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id)
+            ?? null!;
+    }
+
+    public async Task<int> UpdateAsync(Guid id, Category category)
+    {
+        var updateCategory = await GetByIdAsync(id);
+        if (updateCategory is null) return 0;
+
+        updateCategory.Name = string.IsNullOrEmpty(category.Name) ? updateCategory.Name : category.Name;
+
+        return await dbContext.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId)
@@ -36,10 +51,5 @@ public class CategoryRepository(AppDbContext dbContext) : ICategoryRepository
             .ToListAsync();
 
         return products.Count > 0 ? products : [];
-    }
-
-    public Task<int> UpdateAsync(Guid id, Category category)
-    {
-        throw new NotImplementedException();
     }
 }

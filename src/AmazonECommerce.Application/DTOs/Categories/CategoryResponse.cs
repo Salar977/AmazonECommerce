@@ -8,5 +8,5 @@ public class CategoryResponse
     public string Name { get; set; } = string.Empty;
 
     // TODO: use HTTPGET requests without the generic repository
-    //public IEnumerable<ProductResponse>? Products { get; set; }
+    public IEnumerable<ProductResponse>? Products { get; set; }
 }
