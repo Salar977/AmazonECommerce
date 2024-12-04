@@ -1,5 +1,5 @@
 ﻿using AmazonECommerce.Application.DTOs.Products;
-using AmazonECommerce.Application.Interfaces;
+using AmazonECommerce.Application.Interfaces.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmazonECommerce.Api.Controllers;

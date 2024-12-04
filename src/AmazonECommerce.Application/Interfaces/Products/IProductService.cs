@@ -1,7 +1,7 @@
 ﻿using AmazonECommerce.Application.DTOs;
 using AmazonECommerce.Application.DTOs.Products;
 
-namespace AmazonECommerce.Application.Interfaces;
+namespace AmazonECommerce.Application.Interfaces.Products;
 
 public interface IProductService
 {

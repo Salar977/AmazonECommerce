@@ -2,14 +2,14 @@
 using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Authentication;
 using AmazonECommerce.Application.Interfaces.Cart;
-using AmazonECommerce.Application.Interfaces.Category;
+using AmazonECommerce.Application.Interfaces.Categories;
+using AmazonECommerce.Application.Interfaces.Products;
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Infrastructure.Data;
 using AmazonECommerce.Infrastructure.Middelware;
 using AmazonECommerce.Infrastructure.Repositories;
 using AmazonECommerce.Infrastructure.Repositories.Authentication;
 using AmazonECommerce.Infrastructure.Repositories.Cart;
-using AmazonECommerce.Infrastructure.Repositories.Category;
 using AmazonECommerce.Infrastructure.Services;
 using EntityFramework.Exceptions.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,8 +36,9 @@ public static class DependencyInjection
             }).UseExceptionProcessor(),
             ServiceLifetime.Scoped);
 
-        services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
-        services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+        //services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+        //services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IAppLogger<>), typeof(SeriLogLoggerAdapter<>));
         services.AddScoped<IUserManagement, UserManagement>();
         services.AddScoped<IRoleManagement, RoleManagement>();

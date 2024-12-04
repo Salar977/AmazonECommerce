@@ -1,6 +1,14 @@
-﻿namespace AmazonECommerce.Application.DTOs.Products;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class ProductUpdate : BaseProduct
+namespace AmazonECommerce.Application.DTOs.Products;
+
+public class ProductUpdate
 {
-    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
+    public string Image { get; set; } = string.Empty;
+
+    [DataType(DataType.Currency)]
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
 }

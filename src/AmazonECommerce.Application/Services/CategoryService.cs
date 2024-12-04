@@ -1,14 +1,13 @@
 ﻿using AmazonECommerce.Application.DTOs;
 using AmazonECommerce.Application.DTOs.Categories;
 using AmazonECommerce.Application.DTOs.Products;
-using AmazonECommerce.Application.Interfaces;
-using AmazonECommerce.Application.Interfaces.Category;
+using AmazonECommerce.Application.Interfaces.Categories;
 using AmazonECommerce.Domain.Entities;
 using AutoMapper;
 
 namespace AmazonECommerce.Application.Services;
 
-public class CategoryService(IGenericRepository<Category> genericRepository,
+public class CategoryService(ICategoryRepository genericRepository,
                              ICategoryRepository categoryRepository,
                              IMapper mapper) : ICategoryService
 {

@@ -2,6 +2,7 @@
 using AmazonECommerce.Application.DTOs.Cart;
 using AmazonECommerce.Application.Interfaces;
 using AmazonECommerce.Application.Interfaces.Cart;
+using AmazonECommerce.Application.Interfaces.Products;
 using AmazonECommerce.Domain.Entities;
 using AmazonECommerce.Domain.Entities.Cart;
 using AutoMapper;
@@ -10,7 +11,7 @@ namespace AmazonECommerce.Application.Services.Cart;
 
 public class CartService(ICartRepository cartRepository,
                          IMapper mapper,
-                         IGenericRepository<Product> repository,
+                         IProductRepository repository,
                          IPaymentMethodService paymentMethodService,
                          IPaymentService paymentService) : ICartService
 {

@@ -2,7 +2,7 @@
 using AmazonECommerce.Application.DTOs.Categories;
 using AmazonECommerce.Application.DTOs.Products;
 
-namespace AmazonECommerce.Application.Interfaces.Category;
+namespace AmazonECommerce.Application.Interfaces.Categories;
 
 public interface ICategoryService
 {

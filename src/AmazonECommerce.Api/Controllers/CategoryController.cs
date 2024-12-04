@@ -1,5 +1,5 @@
 ﻿using AmazonECommerce.Application.DTOs.Categories;
-using AmazonECommerce.Application.Interfaces.Category;
+using AmazonECommerce.Application.Interfaces.Categories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmazonECommerce.Api.Controllers;

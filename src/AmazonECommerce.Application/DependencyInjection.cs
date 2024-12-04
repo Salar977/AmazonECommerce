@@ -1,7 +1,7 @@
-﻿using AmazonECommerce.Application.Interfaces;
-using AmazonECommerce.Application.Interfaces.Authentication;
+﻿using AmazonECommerce.Application.Interfaces.Authentication;
 using AmazonECommerce.Application.Interfaces.Cart;
-using AmazonECommerce.Application.Interfaces.Category;
+using AmazonECommerce.Application.Interfaces.Categories;
+using AmazonECommerce.Application.Interfaces.Products;
 using AmazonECommerce.Application.Interfaces.Validation;
 using AmazonECommerce.Application.Mapping;
 using AmazonECommerce.Application.Services;

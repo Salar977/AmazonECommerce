@@ -1,12 +1,13 @@
 ﻿using AmazonECommerce.Application.DTOs;
 using AmazonECommerce.Application.DTOs.Products;
 using AmazonECommerce.Application.Interfaces;
+using AmazonECommerce.Application.Interfaces.Products;
 using AmazonECommerce.Domain.Entities;
 using AutoMapper;
 
 namespace AmazonECommerce.Application.Services;
 
-public class ProductService(IGenericRepository<Product> productRepository,
+public class ProductService(IProductRepository productRepository,
                             IMapper mapper) : IProductService
 {
     public async Task<ServiceResponse> AddAsync(ProductRequest createProduct)
